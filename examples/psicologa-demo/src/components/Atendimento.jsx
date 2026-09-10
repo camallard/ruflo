@@ -61,11 +61,32 @@ export default function Atendimento() {
                 O endereco vem de siteConfig.GOOGLE_MAPS_LOCATION.
                 Nao e preciso chave de API nem mexer neste componente.
               */}
-              <div className="mt-auto aspect-[16/10] w-full border-t border-clay-200/70 bg-cream">
+              <div className="relative mt-auto aspect-[16/10] w-full border-t border-clay-200/70 bg-cream">
+                {/*
+                  Camada de reserva, exibida por tras do mapa. Se o embed do
+                  Google for bloqueado (bloqueador de anuncios, extensao de
+                  privacidade, rede corporativa), o visitante ve o endereco e o
+                  link da rota em vez de um retangulo vazio.
+                */}
+                <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 px-6 text-center">
+                  <MapPin className="h-5 w-5 text-clay-400" strokeWidth={1.5} />
+                  <p className="text-[0.88rem] text-ink-soft">
+                    {presencial.endereco} — {presencial.bairro}
+                  </p>
+                  <a
+                    href={mapaLinkExterno()}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[0.85rem] text-sage-700 underline underline-offset-4"
+                  >
+                    Abrir no Google Maps
+                  </a>
+                </div>
+
                 <iframe
                   title={`Mapa: ${GOOGLE_MAPS_LOCATION}`}
                   src={mapaEmbedUrl()}
-                  className="h-full w-full"
+                  className="absolute inset-0 h-full w-full"
                   style={{ border: 0 }}
                   loading="lazy"
                   allowFullScreen
