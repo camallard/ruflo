@@ -1,0 +1,142 @@
+@import "./fonts.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    /* Compensa o cabecalho fixo ao navegar pelos links do menu */
+    scroll-padding-top: 5.5rem;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-canvas text-ink-soft font-sans antialiased;
+    /* Trava qualquer rolagem horizontal acidental */
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3 {
+    @apply font-display text-ink;
+    font-variation-settings: 'SOFT' 12, 'WONK' 0;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    @apply bg-sage-200 text-ink;
+  }
+
+  :focus-visible {
+    outline: 2px solid theme('colors.sage.500');
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+}
+
+@layer components {
+  /* Faixa de largura padrao usada por todas as secoes */
+  .shell {
+    @apply mx-auto w-full max-w-content px-6 sm:px-8 lg:px-12;
+  }
+
+  /* Rotulo pequeno em maiusculas acima dos titulos */
+  .eyebrow {
+    @apply font-sans text-[0.68rem] font-medium uppercase tracking-widest2 text-sage-600;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-full text-[0.94rem]
+           font-medium transition-all duration-300 ease-calm;
+  }
+
+  .btn-primary {
+    @apply btn bg-sage-600 px-7 py-3.5 text-canvas shadow-soft
+           hover:bg-sage-700 hover:shadow-lift hover:-translate-y-0.5 active:translate-y-0;
+  }
+
+  .btn-ghost {
+    @apply btn px-6 py-3.5 text-ink-soft hover:text-ink;
+  }
+
+  .btn-outline {
+    @apply btn border border-clay-300 bg-transparent px-7 py-3.5 text-ink
+           hover:border-clay-400 hover:bg-clay-200/40;
+  }
+
+  /* Linha fina de separacao */
+  .hairline {
+    @apply border-t border-clay-200/70;
+  }
+}
+
+@layer utilities {
+  /* ---- Animacoes de entrada (usadas pelo componente <Reveal />) ---- */
+  .reveal {
+    opacity: 0;
+    transform: translate3d(0, 18px, 0);
+    transition:
+      opacity 900ms cubic-bezier(0.22, 0.61, 0.36, 1),
+      transform 900ms cubic-bezier(0.22, 0.61, 0.36, 1);
+    will-change: opacity, transform;
+  }
+
+  .reveal-visible {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+
+  /* Variante mais suave, para imagens grandes */
+  .reveal-soft {
+    transform: translate3d(0, 10px, 0) scale(0.995);
+  }
+}
+
+/* Respeita quem prefere menos movimento no sistema operacional. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ---- Entrada dos elementos do hero, no carregamento da pagina ---- */
+@keyframes heroIn {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 22px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.hero-in {
+  opacity: 0;
+  animation: heroIn 1s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-in {
+    opacity: 1;
+    animation: none;
+  }
+}
